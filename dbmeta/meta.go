@@ -128,7 +128,11 @@ func generateFieldsTypes(db *sql.DB, columns []*sql.ColumnType, depth int, jsonA
 
 		}
 		if jsonAnnotation == true {
-			annotations = append(annotations, fmt.Sprintf("json:\"%s\"", key))
+			if i == 0 {
+				annotations = append(annotations, fmt.Sprintf("jsonapi:\"attr:%s;primary,%s\"", key, tableName))
+			} else {
+				annotations = append(annotations, fmt.Sprintf("jsonapi:\"attr:%s\"", key))
+			}
 		}
 		if len(annotations) > 0 {
 			field = fmt.Sprintf("%s %s `%s`",
